@@ -9,6 +9,8 @@ naming <- data.frame(vars) %>%
          tlag_maxs = max(tmid_lag),
          tlag_mins = min(tmid_lag))
 
+ls <- length(unique(naming$fixseasons))
+
 if(ls == 2){
   naming$fixseasons[naming$pmax == max(naming$pmax)] <- "wet"
   naming$fixseasons[naming$v != 6] <- "dry"
