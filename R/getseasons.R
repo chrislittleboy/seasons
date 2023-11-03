@@ -1,22 +1,21 @@
-getseasons <- function(pixel, 
-                       dif, 
+getseasons <- function(df,
+                       dif,
                        ndvilag_high, ndvilag_low, 
                        tlag_high, tlag_low, 
                        temp_low, temp_high, 
                        prec_high, prec_low){
 
-pixel <- cities_climate[cities_climate$identifier == id,]
-pixel <- pixel %>%
+df <- df %>%
     mutate(tran = tmax - tmin) %>%
     mutate(tmid = tmin + (tran/2)) %>%
     mutate(tmid_lag = tmid - lag(tmid, n = 1),
            ndvi_lag = ndvi - lag(ndvi, n = 1))
-pixel[1,10] <- pixel[1,9] - pixel[12,9] # tmid jan lag value
-pixel[1,11] <- pixel[1,2] - pixel[12,2] # ndvi jan lag value
-vars <- pixel %>% select(ndvi, ndvi_lag, prec, tmid, tmid_lag)
+df[1,10] <- df[1,9] - df[12,9] # tmid jan lag value
+df[1,11] <- df[1,2] - df[12,2] # ndvi jan lag value
+vars <- df %>% select(ndvi, ndvi_lag, prec, tmid, tmid_lag)
 vars <- data.frame(scale(vars))
 # get temparature difference in year
-x <- max(pixel$tmax) - min(pixel$tmax)
+x <- max(df$tmax) - min(df$tmax)
 
 # set lag variables
 f_ndvilag <- ifelse(x >= dif, ndvilag_high, ndvilag_low)
@@ -43,11 +42,11 @@ vars$season <- nameseasons(vars)
 vars$month <- c("jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec")
 
 # unscaling for reporting and visualisation
-vars$tmid <- pixel$tmid
-vars$prec <- pixel$prec
-vars$ndvi <- pixel$ndvi
-vars$tmid_lag <- pixel$tmid_lag
-vars$ndvi_lag <- pixel$ndvi_lag
+vars$tmid <- df$tmid
+vars$prec <- df$prec
+vars$ndvi <- df$ndvi
+vars$tmid_lag <- df$tmid_lag
+vars$ndvi_lag <- df$ndvi_lag
 
 vars <- vars %>%
   select(month, season, tmid, prec, ndvi, tmid_lag, ndvi_lag)
