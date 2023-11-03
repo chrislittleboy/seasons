@@ -12,8 +12,8 @@ naming <- data.frame(vars) %>%
 ls <- length(unique(naming$fixseasons))
 
 if(ls == 2){
-  naming$fixseasons[naming$pmax == max(naming$pmax)] <- "wet"
-  naming$fixseasons[naming$v != 6] <- "dry"
+  naming$fixseasons[naming$pmaxs == max(naming$pmaxs)] <- "wet"
+  naming$fixseasons[naming$fixseasons != "wet"] <- "dry"
 }
 
 if(ls == 4){
