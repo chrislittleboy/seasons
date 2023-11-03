@@ -1,0 +1,1 @@
+agrast <- function(x,f){return(aggregate(rast(x), fact = f))}
