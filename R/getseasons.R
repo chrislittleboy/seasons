@@ -10,8 +10,8 @@ df <- df %>%
     mutate(tmid = tmin + (tran/2)) %>%
     mutate(tmid_lag = tmid - lag(tmid, n = 1),
            ndvi_lag = ndvi - lag(ndvi, n = 1))
-df[1,10] <- df[1,9] - df[12,9] # tmid jan lag value
-df[1,11] <- df[1,2] - df[12,2] # ndvi jan lag value
+df$tmid_lag[1] <- df$tmid[1] - df$tmid[12] # tmid jan lag value
+df$ndvi_lag[1] <- d$ndvif[1] - df$ndvi[12] # ndvi jan lag value
 vars <- df %>% select(ndvi, ndvi_lag, prec, tmid, tmid_lag)
 vars <- data.frame(scale(vars))
 # get temparature difference in year
